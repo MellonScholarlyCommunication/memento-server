@@ -1,0 +1,21 @@
+{
+  "name": "memento-server",
+  "version": "1.0.0",
+  "description": "An experimental Memento (RFC 7089) server",
+  "main": "index.js",
+  "repository": "https://github.com/MellonScholarlyCommunication/memento-server",
+  "author": "Patrick Hochstenbach <Patrick.Hochstenbach@UGent.be>",
+  "license": "MIT",
+  "scripts": {
+    "server": "ldn-inbox-server start-server",
+    "handler": "ldn-inbox-server handle-inbox `pwd`/src/inbox_handler.js",
+    "demo-post": "curl -X POST -H 'Content-Type: application/ld+json' --data-binary '@demo/offer.jsonld' http://localhost:8000/inbox/"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "exponential-backoff": "^3.1.1",
+    "ldn-inbox-server": "^1.0.0",
+    "log4js": "^6.9.1",
+    "simple-git": "^3.23.0"
+  }
+}
