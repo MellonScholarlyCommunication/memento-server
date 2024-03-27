@@ -1,0 +1,17 @@
+{ 
+    "@context": [ 
+      "https://www.w3.org/ns/activitystreams" ,
+      {"schema": "https://schema.org/"}
+    ], 
+    "id": "urn:uuid:6E5FAF88-A7F1-47A4-B087-77345EBFF495",
+    "type": "Offer",
+    "actor": {
+       "id": "https://acme.org/profile/card#us",
+       "inbox": "https://acme.org/inbox/",
+       "type": "Organization"
+    },
+    "object": {
+       "id": "https://labs.eventnotifications.net/artifacts/paper01/eventlog.jsonld",
+       "type": [ "Document" , "schema:Dataset" ]
+    }
+ }
