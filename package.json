@@ -7,8 +7,9 @@
   "author": "Patrick Hochstenbach <Patrick.Hochstenbach@UGent.be>",
   "license": "MIT",
   "scripts": {
-    "server": "ldn-inbox-server start-server",
-    "handler": "ldn-inbox-server handle-inbox `pwd`/src/inbox_handler.js",
+    "server": "node bin/memento-server.js start-server",
+    "handle-inbox": "node bin/memento-server.js handle-inbox",
+    "handle-outbox": "node bin/memento-server.js handle-outbox",
     "demo-post": "curl -X POST -H 'Content-Type: application/ld+json' --data-binary '@demo/offer.jsonld' http://localhost:8000/inbox/"
   },
   "dependencies": {
