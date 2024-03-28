@@ -92,15 +92,15 @@ jsonschema@^1.4.1:
   resolved "https://registry.yarnpkg.com/jsonschema/-/jsonschema-1.4.1.tgz#cc4c3f0077fb4542982973d8a083b6b34f482dab"
   integrity sha512-S6cATIPVv1z0IlxdN+zUk5EPjkGCdnhN4wVSBlvoUO1tOLJootbo9CquNJmbIh4yikWHiUedhRYrNPn1arpEmQ==
 
-ldn-inbox-server@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/ldn-inbox-server/-/ldn-inbox-server-1.0.0.tgz#33cbd5d804a824a5671f9f5b234a057fed5ef039"
-  integrity sha512-FvPT1MH0U/ln9IrlkE9Jt31wG6uS6rq/evrbWuasY4hSU4WjlqdShWEwREqi4Jwxs2qHrn1z9Vy8nd/njjqpsA==
+ldn-inbox-server@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/ldn-inbox-server/-/ldn-inbox-server-1.0.1.tgz#4ecec63a17ea4e3d0340d9deb188f7cc75b5d400"
+  integrity sha512-OEFTjJ+/0Rh7te8XCp5vbaPXgpuTn/4c5FiflfDvxJQVsH3nm8m/oz717h/ziB73tYjEvgs+KmOiM4rGoGyZwA==
   dependencies:
     commander "^12.0.0"
     jsonschema "^1.4.1"
     md5 "^2.3.0"
-    mellon-server "^1.0.2"
+    mellon-server "^1.0.3"
     uuid "^9.0.1"
 
 log4js@^6.9.1:
@@ -123,10 +123,10 @@ md5@^2.3.0:
     crypt "0.0.2"
     is-buffer "~1.1.6"
 
-mellon-server@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/mellon-server/-/mellon-server-1.0.2.tgz#5ab3f6dcde688edbfa2edc69b93dcb169a4f871c"
-  integrity sha512-YW0FebzrVtg3wUp23nxOMsHkC5CSxTnQDRaNcNcj5ukcJV1TSe8WL1HSbJDW7fVEBlZQ8LxXulLPmMmJbP76Xw==
+mellon-server@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/mellon-server/-/mellon-server-1.0.3.tgz#bda3be7f01d364e22c8a30711e6bfce28a8e33a8"
+  integrity sha512-LDzA/ZVMWmSDZjQzEB9gj3Yfsq5XYpqsOBeZ/vop2jymc/Vvlp5Z8sXfAwTu8uXseMZbtzln7Yab3VW0k3iSKg==
   dependencies:
     commander "^12.0.0"
     http "^0.0.1-security"

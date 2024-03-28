@@ -4,6 +4,7 @@ const log4js = require('log4js');
 const { backOff } = require('exponential-backoff');
 const simpleGit = require('simple-git');
 const crypto = require('crypto');
+const { v4: uuidv4 } = require('uuid');
 require('dotenv').config();
 
 const logger = log4js.getLogger();
@@ -45,20 +46,79 @@ async function handleInbox(path,options) {
 }
 
 async function handleNotification(path,options) {
+    logger.info(`Processing ${path} ...`);
+    let json;
     try {
-        logger.info(`Processing ${path} ...`);
-        const json = JSON.parse(fs.readFileSync(path, { encoding: 'utf-8'}));
-        const object = json['object']['id'];
-        const actor_id = json['actor']['id'];
-        const actor_inbox = json['actor']['inbox'];
-
-        const body = await fetchOriginal(object);
-
-        await storeMemento(object,body,actor_id);
+        json = JSON.parse(fs.readFileSync(path, { encoding: 'utf-8'}));
     }
     catch (e) {
         logger.error(e);
-        //moveToError(path);
+        moveToError(path); 
+    }
+ 
+    const id = json['id'];
+    const type = json['type'];
+
+    if (type !== 'Offer') {
+        logger.error(`Refused to process notification of type ${type}`);
+        moveToError(path);
+    }
+
+    const object = json['object']['id'];
+    const actor_id = json['actor']['id'];
+    const actor_type = json['actor']['type'];
+    const actor_inbox = json['actor']['inbox'];
+
+    try {
+        const body = await fetchOriginal(object);
+
+        const memento = await storeMemento(object,body,actor_id);
+
+        await sendNotification(actor_inbox,{
+            type: 'Announce',
+            actor: {
+                id: process.env.MEMENTO_ACTOR_ID ,
+                inbox: process.env.MEMENTO_ACTOR_INBOX ,
+                type: 'Service'
+            },
+            context: object,
+            inReplyTo: id ,
+            object: {
+                id: `${process.env.MEMENTO_BASEURL_TIMEMAP}${object}`,
+                type: 'Document',
+                'ietf:original': object ,
+                'ietf:memento': `${process.env.MEMENTO_BASEURL_MEMENTO}${object}/${memento.memento}`
+            },
+            target: {
+                id: actor_id ,
+                type: actor_type ,
+                inbox: actor_inbox
+            }
+        });
+        // fs.unlinkSync(path);
+    }
+    catch (e) {
+        logger.error(e);
+
+        await sendNotification(actor_inbox, {
+            type: 'Flag',
+            actor: {
+                id: process.env.MEMENTO_ACTOR_ID ,
+                inbox: process.env.MEMENTO_ACTOR_INBOX ,
+                type: 'Service'
+            },
+            summary: 'We cannot process your object',
+            context: object,
+            inReplyTo: id ,
+            object: json['object'],
+            target: {
+                id: actor_id ,
+                type: actor_type ,
+                inbox: actor_inbox
+            }
+        });
+
+        moveToError(path);
     }
 }
 
@@ -67,12 +127,46 @@ async function fetchOriginal(url) {
     const response = await backOff_fetch(url, { method: 'GET' });
 
     if (!response.ok) {
+        logger.error(`Failed to fetch original ${url} [${response.status}]`);
         throw Error(`failed to fetch object ${url}`);
     }
 
     const body = await response.text();
 
     return body;
+}
+
+async function sendNotification(url,json) {
+    logger.info(`Sending to ${url}...`);
+
+    if (!json['@context']) {
+        json['@context'] = [
+            "https://www.w3.org/ns/activitystreams",
+            { ietf: "https://www.iana.org/" }
+        ];
+    }
+
+    if (!json['id']) {
+        json['id'] = 'urn:uuid:' + uuidv4();
+    }
+
+    logger.debug(JSON.stringify(json,null,2));
+    
+    const response = await backOff_fetch(url, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(json)
+    });
+
+    if (! response.ok) {
+        logger.error(`Failed to post to ${url} [${response.status}]`);
+        throw Error(`failed to POST to ${url}`);
+    }
+
+    return true;
 }
 
 async function storeMemento(url, body, actor) {
@@ -90,7 +184,7 @@ async function storeMemento(url, body, actor) {
 
     let isNewFile = false;
 
-    if (fs.existsSync(repostoryPath)) {
+    if (!fs.existsSync(repostoryPath)) {
         isNewFile = true;
     }
 
@@ -103,9 +197,17 @@ async function storeMemento(url, body, actor) {
 
     logger.info(`git commit ${repostoryPath}`);
 
-    await git.commit(`offer from ${actor}`);
+    await git.commit(`offer from ${actor}`, [ repostoryPath ]);
 
-    return repostoryPath;
+    const file_log = await git.log({file: repostoryPath});
+
+    let commit_hash ;
+
+    if (file_log && file_log['all']?.length > 0 ) {
+        commit_hash = file_log['all'][0]['hash'];
+    }
+
+    return { id: checksum , path: repostoryPath , memento: commit_hash };
 }
 
 function moveToError(path) {
