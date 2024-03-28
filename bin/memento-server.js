@@ -33,7 +33,7 @@ program
   .action( async(options) => {
     await handle_inbox(
         options['inbox'],
-        path.resolve(__dirname,'../src/inbox_handler.js'),
+        path.resolve(__dirname,'../lib/inbox_handler.js'),
         options
     );
   });
