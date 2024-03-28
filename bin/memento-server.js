@@ -3,11 +3,13 @@
 const path = require('path');
 const { program } = require('commander');
 const { inbox_server, handle_inbox } = require('ldn-inbox-server');
+const { handle_outbox } = require('../lib/outbox_handler');
 
 const HOST = 'localhost'
 const PORT = 8000;
 const PUBLIC_PATH = './public';
-const INBOX_PATH = './inbox';
+const INBOX_PATH  = './inbox';
+const OUTBOX_PATH = './outbox';
 const JSON_SCHEMA_PATH = './config/offer_schema.json';
 
 program
@@ -37,5 +39,12 @@ program
         options
     );
   });
+
+program
+    .command('handle-outbox')
+    .option('--outbox <outbox>','outbox',OUTBOX_PATH)
+    .action( async(options) => {
+     await handle_outbox(options['outbox'],options);
+    });
 
 program.parse();
