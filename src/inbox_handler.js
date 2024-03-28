@@ -5,6 +5,7 @@ const { backOff } = require('exponential-backoff');
 const simpleGit = require('simple-git');
 const crypto = require('crypto');
 const { v4: uuidv4 } = require('uuid');
+const { sendNotification } = require('ldn-inbox-server');
 require('dotenv').config();
 
 const logger = log4js.getLogger();
@@ -47,7 +48,9 @@ async function handleInbox(path,options) {
 
 async function handleNotification(path,options) {
     logger.info(`Processing ${path} ...`);
+
     let json;
+
     try {
         json = JSON.parse(fs.readFileSync(path, { encoding: 'utf-8'}));
     }
@@ -69,12 +72,20 @@ async function handleNotification(path,options) {
     const actor_type = json['actor']['type'];
     const actor_inbox = json['actor']['inbox'];
 
+    const outboxFile = process.env.MEMENTO_OUTBOX + '/' + path.split('/').pop();
+
     try {
         const body = await fetchOriginal(object);
 
         const memento = await storeMemento(object,body,actor_id);
 
-        await sendNotification(actor_inbox,{
+        logger.info(`storing Announce to ${outboxFile}`);
+
+        fs.writeFileSync(outboxFile, JSON.stringify({
+            '@context': [
+                "https://www.w3.org/ns/activitystreams",
+                { ietf: "https://www.iana.org/" }
+            ],
             type: 'Announce',
             actor: {
                 id: process.env.MEMENTO_ACTOR_ID ,
@@ -94,13 +105,19 @@ async function handleNotification(path,options) {
                 type: actor_type ,
                 inbox: actor_inbox
             }
-        });
+        },null,2));
         // fs.unlinkSync(path);
     }
     catch (e) {
         logger.error(e);
 
-        await sendNotification(actor_inbox, {
+        logger.info(`storing Flag to ${outboxFile}`);
+
+        fs.writeFileSync(outboxFile, JSON.stringify({ 
+            '@context': [
+                "https://www.w3.org/ns/activitystreams",
+                { ietf: "https://www.iana.org/" }
+            ],
             type: 'Flag',
             actor: {
                 id: process.env.MEMENTO_ACTOR_ID ,
@@ -116,7 +133,7 @@ async function handleNotification(path,options) {
                 type: actor_type ,
                 inbox: actor_inbox
             }
-        });
+        },null,2));
 
         moveToError(path);
     }
@@ -134,39 +151,6 @@ async function fetchOriginal(url) {
     const body = await response.text();
 
     return body;
-}
-
-async function sendNotification(url,json) {
-    logger.info(`Sending to ${url}...`);
-
-    if (!json['@context']) {
-        json['@context'] = [
-            "https://www.w3.org/ns/activitystreams",
-            { ietf: "https://www.iana.org/" }
-        ];
-    }
-
-    if (!json['id']) {
-        json['id'] = 'urn:uuid:' + uuidv4();
-    }
-
-    logger.debug(JSON.stringify(json,null,2));
-    
-    const response = await backOff_fetch(url, {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(json)
-    });
-
-    if (! response.ok) {
-        logger.error(`Failed to post to ${url} [${response.status}]`);
-        throw Error(`failed to POST to ${url}`);
-    }
-
-    return true;
 }
 
 async function storeMemento(url, body, actor) {
