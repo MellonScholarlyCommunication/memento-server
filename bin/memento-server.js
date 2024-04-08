@@ -4,7 +4,9 @@ const path = require('path');
 const { program } = require('commander');
 const { inbox_server, handle_inbox } = require('ldn-inbox-server');
 const { handle_outbox } = require('../lib/outbox_handler');
-const { removeStore, initStore , listMementos , listRepository } = require('../lib/memento');
+const { handle_map } = require('../lib/map_handler');
+const { handle_memento } = require('../lib/memento_handler');
+const { removeStore, initStore , listMementos , getMemento , listRepository } = require('../lib/memento');
 
 const HOST = 'localhost'
 const PORT = 8000;
@@ -37,6 +39,16 @@ program
   .option('--schema <schema>','json schema',JSON_SCHEMA_PATH)
   .option('--registry <registry>','registry',null)
   .action( (options) => {
+    const registry = options['registry'] ?? [];
+    registry.push({
+      'path': '^map/.*' , 
+      'do': handle_map
+    });
+    registry.push({
+      'path': '^memento/.*' ,
+      'do': handle_memento
+    });
+    options['registry'] = registry;
     inbox_server(options);
   });
 
@@ -58,13 +70,21 @@ program
      await handle_outbox(options['outbox'],options);
     });
 
-
 program
     .command('mementos')
     .argument('<url>', 'URL')
     .action( async(url) => {
       const mementos = await listMementos(url);
       console.log(JSON.stringify(mementos,null,4));
+    });
+
+program
+    .command('memento')
+    .argument('<url>', 'URL')
+    .argument('<hash>', 'hash')
+    .action( async(url,hash) => {
+      const content = await getMemento(url,hash);
+      console.log(content);
     });
 
 program
