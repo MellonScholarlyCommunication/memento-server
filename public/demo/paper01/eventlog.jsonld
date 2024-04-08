@@ -1,0 +1,19 @@
+{
+    "@context": "https://labs.eventnotifications.net/contexts/eventlog.jsonld" ,
+    "id": "https://labs.eventnotifications.net/artifacts/paper01/eventlog.jsonld",
+    "type": "EventLog",
+    "artifact": "https://labs.eventnotifications.net/artifacts/paper01/",
+    "member": [
+        "https://labs.eventnotifications.net/artifacts/paper01/eventlog/urn-uuid-1-1-0.jsonld",
+	"https://labs.eventnotifications.net/artifacts/paper01/eventlog/urn-uuid-1-1-1.jsonld",
+        "https://labs.eventnotifications.net/artifacts/paper01/eventlog/urn-uuid-1-1.jsonld" ,
+        "https://labs.eventnotifications.net/artifacts/paper01/eventlog/urn-uuid-1-2.jsonld" ,
+        "https://labs.eventnotifications.net/artifacts/paper01/eventlog/urn-uuid-1-3-0.jsonld" ,
+        "https://labs.eventnotifications.net/artifacts/paper01/eventlog/urn-uuid-1-3-1.jsonld" ,
+	"https://labs.eventnotifications.net/artifacts/paper01/eventlog/urn-uuid-1-3.jsonld" ,
+	"https://labs.eventnotifications.net/artifacts/paper01/eventlog/urn-uuid-1-4-0.jsonld" ,
+	"https://labs.eventnotifications.net/artifacts/paper01/eventlog/urn-uuid-1-4-1.jsonld" ,
+	"https://labs.eventnotifications.net/artifacts/paper01/eventlog/urn-uuid-1-4.jsonld" ,
+	"https://labs.eventnotifications.net/artifacts/paper01/eventlog/urn-uuid-2-5.jsonld"
+    ]
+}
