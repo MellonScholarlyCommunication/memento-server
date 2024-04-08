@@ -11,7 +11,7 @@
        "type": "Organization"
     },
     "object": {
-       "id": "http://localhost:8000//demo/paper01/eventlog.jsonld",
+       "id": "http://localhost:8000/demo/paper01/eventlog.jsonld",
        "type": [ "Document" , "schema:Dataset" ]
     }
  }

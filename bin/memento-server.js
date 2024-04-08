@@ -4,6 +4,7 @@ const path = require('path');
 const { program } = require('commander');
 const { inbox_server, handle_inbox } = require('ldn-inbox-server');
 const { handle_outbox } = require('../lib/outbox_handler');
+const { removeStore, initStore } = require('../lib/memento');
 
 const HOST = 'localhost'
 const PORT = 8000;
@@ -16,6 +17,16 @@ program
   .name('memento-server')
   .version('1.0.0')
   .description('An experimental Memento (RFC 7089) server');
+
+program
+  .command('init-repository')
+  .option('--clear','remove the old repository',false)
+  .action( async(options) => {
+    if (options['clear']) {
+      await removeStore();
+    }
+    await initStore();
+  });
 
 program
   .command('start-server')
