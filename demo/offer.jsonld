@@ -6,8 +6,8 @@
     "id": "urn:uuid:6E5FAF88-A7F1-47A4-B087-77345EBFF495",
     "type": "Offer",
     "actor": {
-       "id": "https://acme.org/profile/card#us",
-       "inbox": "https://acme.org/inbox/",
+       "id": "https://acme.org.xyz/profile/card#us",
+       "inbox": "https://acme.org.xyz/inbox/",
        "type": "Organization"
     },
     "object": {

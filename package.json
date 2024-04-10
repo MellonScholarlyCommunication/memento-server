@@ -8,8 +8,8 @@
   "license": "MIT",
   "scripts": {
     "server": "node bin/memento-server.js start-server",
-    "handle-inbox": "node bin/memento-server.js handle-inbox",
-    "handle-outbox": "node bin/memento-server.js handle-outbox",
+    "handle-inbox": "node bin/memento-server.js handler @inbox",
+    "handle-outbox": "node bin/memento-server.js handler @outbox",
     "demo-post": "curl -X POST -H 'Content-Type: application/ld+json' --data-binary '@demo/offer.jsonld' http://localhost:8000/inbox/",
     "clean": "rm error/* inbox/* outbox/*"
   },
@@ -17,7 +17,7 @@
     "commander": "^12.0.0",
     "dotenv": "^16.4.5",
     "exponential-backoff": "^3.1.1",
-    "ldn-inbox-server": "^1.0.6",
+    "ldn-inbox-server": "^1.1.1",
     "log4js": "^6.9.1",
     "simple-git": "^3.23.0",
     "uuid": "^9.0.1"

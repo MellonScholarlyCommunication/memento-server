@@ -2,8 +2,8 @@
 
 const path = require('path');
 const { program } = require('commander');
-const { inbox_server, handle_inbox } = require('ldn-inbox-server');
-const { handle_outbox } = require('../lib/outbox_handler');
+const { inbox_server, handle_inbox , defaultSendNotificationHandler } = require('ldn-inbox-server');
+const { notificationHandler } = require('../lib/inbox_handler');
 const { handle_map } = require('../lib/map_handler');
 const { handle_memento } = require('../lib/memento_handler');
 const { removeStore, initStore , listMementos , getMemento , listRepository } = require('../lib/memento');
@@ -11,7 +11,9 @@ const { removeStore, initStore , listMementos , getMemento , listRepository } = 
 const HOST = 'localhost'
 const PORT = 8000;
 const PUBLIC_PATH = './public';
+const INBOX_URL   = 'inbox/';
 const INBOX_PATH  = './inbox';
+const ERROR_PATH  = './error';
 const OUTBOX_PATH = './outbox';
 const JSON_SCHEMA_PATH = './config/offer_schema.json';
 
@@ -34,6 +36,7 @@ program
   .command('start-server')
   .option('--host <host>','host',HOST)
   .option('--port <port>','port',PORT)
+  .option('--url <url>','url',INBOX_URL)
   .option('--inbox <inbox>','inbox',INBOX_PATH)
   .option('--public <public>','public',PUBLIC_PATH)
   .option('--schema <schema>','json schema',JSON_SCHEMA_PATH)
@@ -53,22 +56,28 @@ program
   });
 
 program
-  .command('handle-inbox')
+  .command('handler')
   .option('--inbox <inbox>','inbox',INBOX_PATH)
-  .action( async(options) => {
-    await handle_inbox(
-        options['inbox'],
-        path.resolve(__dirname,'../lib/inbox_handler.js'),
-        options
-    );
+  .option('--outbox <outbox>','outbox',OUTBOX_PATH)
+  .option('--error <errbox>','errbox',ERROR_PATH)
+  .option('-hi,--inbox_handler <handler>','inbox handler')
+  .option('-hn,--notification_handler <handler>','notification handler')
+  .argument('<box>','box to process')
+  .action( async(box,options) => {
+    switch (box) {
+      case '@inbox':
+        box = INBOX_PATH;
+        options['notification_handler'] =
+           options['notification_handler'] ?? notificationHandler;
+        break;
+      case '@outbox':
+        box = OUTBOX_PATH;
+        options['notification_handler'] =
+           options['notification_handler'] ?? defaultSendNotificationHandler;
+        break;
+    }
+    await handle_inbox(box,options);
   });
-
-program
-    .command('handle-outbox')
-    .option('--outbox <outbox>','outbox',OUTBOX_PATH)
-    .action( async(options) => {
-     await handle_outbox(options['outbox'],options);
-    });
 
 program
     .command('mementos')
