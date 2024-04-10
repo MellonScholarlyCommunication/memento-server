@@ -82,6 +82,33 @@ curl http://localhost:8000/memento/20240408104031/http://localhost:8000/demo/pap
 ./bin/memento-server.js memento <URL> <datetime>
 ```
 
+## Daemonize
+
+Install [pm2](https://pm2.keymetrics.io):
+
+```
+yarn global all pm2
+```
+
+Start the server in daemon mode:
+
+```
+pm2 start "./bin/memento-server start-server"
+```
+
+Start the inbox and outbox handlers in daemin mode
+
+```
+pm2 start "./bin/memento-server handler --loop 30 @inbox"
+pm2 start "./bin/memento-server handler --loop 30 @outbox"
+```
+
+Monitor all services
+
+```
+pm2 monit
+```
+
 ## See also
 
 - https://github.com/MellonScholarlyCommunication/ldn-inbox-server

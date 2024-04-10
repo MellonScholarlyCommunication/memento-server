@@ -47,6 +47,7 @@ program
 
 program
   .command('handler')
+  .option('--loop <seconds>', 'run in a loop',0)
   .option('--inbox <inbox>','inbox',INBOX_PATH)
   .option('--outbox <outbox>','outbox',OUTBOX_PATH)
   .option('--error <errbox>','errbox',ERROR_PATH)
@@ -66,7 +67,15 @@ program
            options['notification_handler'] ?? defaultSendNotificationHandler;
         break;
     }
-    await handle_inbox(box,options);
+    if (options['loop']) {
+      while(1) {
+        await handle_inbox(box,options); 
+        await new Promise(resolve => setTimeout(resolve, options['loop']*1000));
+      }
+    }
+    else {
+      await handle_inbox(box,options);
+    }
   });
 
 program
