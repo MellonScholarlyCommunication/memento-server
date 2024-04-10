@@ -7,6 +7,7 @@
   "author": "Patrick Hochstenbach <Patrick.Hochstenbach@UGent.be>",
   "license": "MIT",
   "scripts": {
+    "init-repository": "node bin/memento-server.js init-repository --clear",
     "server": "node bin/memento-server.js start-server",
     "handle-inbox": "node bin/memento-server.js handler @inbox",
     "handle-outbox": "node bin/memento-server.js handler @outbox",

@@ -14,6 +14,12 @@ Edit the `.env` to set the absolute path of the Menento git repository : `MEMENT
 
 ## Demo
 
+Initialize the repository:
+
+```
+yarn init-repository
+```
+
 Start the server:
 
 ```

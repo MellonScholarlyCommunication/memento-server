@@ -6,7 +6,7 @@ const { inbox_server, handle_inbox , defaultSendNotificationHandler } = require(
 const { notificationHandler } = require('../lib/inbox_handler');
 const { handle_map } = require('../lib/map_handler');
 const { handle_memento } = require('../lib/memento_handler');
-const { removeStore, initStore , listMementos , getMemento , listRepository } = require('../lib/memento');
+const { removeStore, initStore , listMementos , getMemento , getMementoMetadata , listRepository } = require('../lib/memento');
 
 const HOST = 'localhost'
 const PORT = 8000;
@@ -21,16 +21,6 @@ program
   .name('memento-server')
   .version('1.0.0')
   .description('An experimental Memento (RFC 7089) server');
-
-program
-  .command('init-repository')
-  .option('--clear','remove the old repository',false)
-  .action( async(options) => {
-    if (options['clear']) {
-      await removeStore();
-    }
-    await initStore();
-  });
 
 program
   .command('start-server')
@@ -80,6 +70,16 @@ program
   });
 
 program
+  .command('init-repository')
+  .option('--clear','remove the old repository',false)
+  .action( async(options) => {
+    if (options['clear']) {
+      await removeStore();
+    }
+    await initStore();
+  });
+
+program
     .command('mementos')
     .argument('<url>', 'URL')
     .action( async(url) => {
@@ -89,11 +89,18 @@ program
 
 program
     .command('memento')
+    .option('--metadata', 'retrieve metadata')
     .argument('<url>', 'URL')
-    .argument('<hash>', 'hash')
-    .action( async(url,hash) => {
-      const content = await getMemento(url,hash);
-      console.log(content);
+    .argument('<datetime>', 'datetime')
+    .action( async(url,datetime,options) => {
+      if (options['metadata']) {
+        const content = await getMementoMetadata(url,datetime);
+        console.log(JSON.stringify(content,null,2));
+      }
+      else {
+        const content = await getMemento(url,datetime);
+        console.log(content);
+      }
     });
 
 program
