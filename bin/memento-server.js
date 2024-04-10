@@ -80,34 +80,34 @@ program
   });
 
 program
-    .command('mementos')
-    .argument('<url>', 'URL')
-    .action( async(url) => {
-      const mementos = await listMementos(url);
-      console.log(JSON.stringify(mementos,null,4));
-    });
+  .command('list-repository')
+  .action( async() => {
+    const inventory = await listRepository();
+    console.log(JSON.stringify(inventory,null,4));
+  });
 
 program
-    .command('memento')
-    .option('--metadata', 'retrieve metadata')
-    .argument('<url>', 'URL')
-    .argument('<datetime>', 'datetime')
-    .action( async(url,datetime,options) => {
-      if (options['metadata']) {
-        const content = await getMementoMetadata(url,datetime);
-        console.log(JSON.stringify(content,null,2));
-      }
-      else {
-        const content = await getMemento(url,datetime);
-        console.log(content);
-      }
-    });
+  .command('mementos')
+  .argument('<url>', 'URL')
+  .action( async(url) => {
+    const mementos = await listMementos(url);
+    console.log(JSON.stringify(mementos,null,4));
+  });
 
 program
-    .command('list-repository')
-    .action( async() => {
-      const inventory = await listRepository();
-      console.log(JSON.stringify(inventory,null,4));
-    });
+  .command('memento')
+  .option('--metadata', 'retrieve metadata')
+  .argument('<url>', 'URL')
+  .argument('<datetime>', 'datetime')
+  .action( async(url,datetime,options) => {
+    if (options['metadata']) {
+      const content = await getMementoMetadata(url,datetime);
+      console.log(JSON.stringify(content,null,2));
+    }
+    else {
+      const content = await getMemento(url,datetime);
+      console.log(content);
+    }
+  });
 
 program.parse();
