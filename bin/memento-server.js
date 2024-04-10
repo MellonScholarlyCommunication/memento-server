@@ -8,14 +8,14 @@ const { handle_map } = require('../lib/map_handler');
 const { handle_memento } = require('../lib/memento_handler');
 const { removeStore, initStore , listMementos , getMemento , getMementoMetadata , listRepository } = require('../lib/memento');
 
-const HOST = 'localhost'
-const PORT = 8000;
-const PUBLIC_PATH = './public';
-const INBOX_URL   = 'inbox/';
-const INBOX_PATH  = './inbox';
-const ERROR_PATH  = './error';
-const OUTBOX_PATH = './outbox';
-const JSON_SCHEMA_PATH = './config/offer_schema.json';
+const HOST = process.env.MEMENTO_HOST ?? 'localhost';
+const PORT = process.env.MEMENTO_PORT ?? 8000;
+const PUBLIC_PATH = process.env.MEMENTO_PUBLIC ?? './public';
+const INBOX_URL   = process.env.MEMENTO_INBOX_URL ?? 'inbox/';
+const INBOX_PATH  = process.env.MEMENTO_INBOX ?? './inbox';
+const ERROR_PATH  = process.env.MEMENTO_ERROR ?? './error';
+const OUTBOX_PATH = process.env.MEMENTO_OUTBOX ?? './outbox';
+const JSON_SCHEMA_PATH = process.env.MEMENTO_JSON_SCHEMA ?? './config/offer_schema.json';
 
 program
   .name('memento-server')
