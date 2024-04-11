@@ -3,7 +3,6 @@
 const path = require('path');
 const { program } = require('commander');
 const { inbox_server, handle_inbox , defaultSendNotificationHandler } = require('ldn-inbox-server');
-const { notificationHandler } = require('../lib/inbox_handler');
 const { handle_map } = require('../lib/map_handler');
 const { handle_memento } = require('../lib/memento_handler');
 const { removeStore, initStore , listMementos , getMemento , getMementoMetadata , listRepository } = require('../lib/memento');
@@ -59,12 +58,14 @@ program
       case '@inbox':
         box = INBOX_PATH;
         options['notification_handler'] =
-           options['notification_handler'] ?? notificationHandler;
+           options['notification_handler'] ?? 
+            path.resolve(__dirname,'..','lib','inbox_handler.js');
         break;
       case '@outbox':
         box = OUTBOX_PATH;
         options['notification_handler'] =
-           options['notification_handler'] ?? defaultSendNotificationHandler;
+           options['notification_handler'] ?? 
+            path.resolve(__dirname,'..','node_modules','ldn-inbox-server','lib','sendNotificationHandler.js');
         break;
     }
     if (options['loop']) {

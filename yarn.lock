@@ -111,18 +111,19 @@ jsonschema@^1.4.1:
   resolved "https://registry.yarnpkg.com/jsonschema/-/jsonschema-1.4.1.tgz#cc4c3f0077fb4542982973d8a083b6b34f482dab"
   integrity sha512-S6cATIPVv1z0IlxdN+zUk5EPjkGCdnhN4wVSBlvoUO1tOLJootbo9CquNJmbIh4yikWHiUedhRYrNPn1arpEmQ==
 
-ldn-inbox-server@^1.1.5:
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/ldn-inbox-server/-/ldn-inbox-server-1.1.5.tgz#0bc5f4569e9b5cc574dc2d4794795c57ecd54142"
-  integrity sha512-iVXnOONZr4XqbAMFrAir/7bMdFYLWx+CbuMwCVGiiUJmXjmwZyI37NXgc75hlHz4sZElP2OlsBdpwa7Dreud/Q==
+ldn-inbox-server@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/ldn-inbox-server/-/ldn-inbox-server-1.2.1.tgz#1702a2873e04c123e9cfbd205fd3b957db7ddc22"
+  integrity sha512-ZISIBnavjb8BGN3bEufMBz2MaCf90yKShDtdm1eV6FH89FgVfSF7gKPIkmJQKCcU58KR/jxz0msco8LqZLeQrQ==
   dependencies:
     commander "^12.0.0"
     dotenv "^16.4.5"
     exponential-backoff "^3.1.1"
     jsonschema "^1.4.1"
     md5 "^2.3.0"
-    mellon-server "^1.0.3"
+    mellon-server "^1.0.4"
     node-fetch "1.7.3"
+    piscina "^4.4.0"
     proper-lockfile "^4.1.2"
     uuid "^9.0.1"
 
@@ -146,10 +147,10 @@ md5@^2.3.0:
     crypt "0.0.2"
     is-buffer "~1.1.6"
 
-mellon-server@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/mellon-server/-/mellon-server-1.0.3.tgz#bda3be7f01d364e22c8a30711e6bfce28a8e33a8"
-  integrity sha512-LDzA/ZVMWmSDZjQzEB9gj3Yfsq5XYpqsOBeZ/vop2jymc/Vvlp5Z8sXfAwTu8uXseMZbtzln7Yab3VW0k3iSKg==
+mellon-server@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/mellon-server/-/mellon-server-1.0.4.tgz#c87aca4a77037db70d727743c92da34bd1134e15"
+  integrity sha512-dl6PRfQhLl3O25KgSbIXrFufUZvbj2gtwycHv2IQt9P+udYUs65sc1rvGSUUXHMxNAixJHsQNNvYxHSf1DBCfQ==
   dependencies:
     commander "^12.0.0"
     http "^0.0.1-security"
@@ -160,6 +161,19 @@ ms@2.1.2:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
   integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
 
+nice-napi@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/nice-napi/-/nice-napi-1.0.2.tgz#dc0ab5a1eac20ce548802fc5686eaa6bc654927b"
+  integrity sha512-px/KnJAJZf5RuBGcfD+Sp2pAKq0ytz8j+1NehvgIGFkvtvFrDM3T8E4x/JJODXK9WZow8RRGrbA9QQ3hs+pDhA==
+  dependencies:
+    node-addon-api "^3.0.0"
+    node-gyp-build "^4.2.2"
+
+node-addon-api@^3.0.0:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/node-addon-api/-/node-addon-api-3.2.1.tgz#81325e0a2117789c0128dab65e7e38f07ceba161"
+  integrity sha512-mmcei9JghVNDYydghQmeDX8KoAm0FAiYyIcUt/N4nhyAipB17pllZQDOJD2fotxABnt4Mdz+dKTO7eftLg4d0A==
+
 node-fetch@1.7.3:
   version "1.7.3"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-1.7.3.tgz#980f6f72d85211a5347c6b2bc18c5b84c3eb47ef"
@@ -167,6 +181,18 @@ node-fetch@1.7.3:
   dependencies:
     encoding "^0.1.11"
     is-stream "^1.0.1"
+
+node-gyp-build@^4.2.2:
+  version "4.8.0"
+  resolved "https://registry.yarnpkg.com/node-gyp-build/-/node-gyp-build-4.8.0.tgz#3fee9c1731df4581a3f9ead74664369ff00d26dd"
+  integrity sha512-u6fs2AEUljNho3EYTJNBfImO5QTo/J/1Etd+NVdCj7qWKUSN/bSLkZwhDv7I+w/MSC6qJ4cknepkAYykDdK8og==
+
+piscina@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/piscina/-/piscina-4.4.0.tgz#e3af8e5721d8fad08c6ccaf8a64f9f42279efbb5"
+  integrity sha512-+AQduEJefrOApE4bV7KRmp3N2JnnyErlVqq4P/jmko4FPz9Z877BCccl/iB3FdrWSUkvbGV9Kan/KllJgat3Vg==
+  optionalDependencies:
+    nice-napi "^1.0.2"
 
 proper-lockfile@^4.1.2:
   version "4.1.2"
