@@ -111,20 +111,21 @@ jsonschema@^1.4.1:
   resolved "https://registry.yarnpkg.com/jsonschema/-/jsonschema-1.4.1.tgz#cc4c3f0077fb4542982973d8a083b6b34f482dab"
   integrity sha512-S6cATIPVv1z0IlxdN+zUk5EPjkGCdnhN4wVSBlvoUO1tOLJootbo9CquNJmbIh4yikWHiUedhRYrNPn1arpEmQ==
 
-ldn-inbox-server@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/ldn-inbox-server/-/ldn-inbox-server-1.2.1.tgz#1702a2873e04c123e9cfbd205fd3b957db7ddc22"
-  integrity sha512-ZISIBnavjb8BGN3bEufMBz2MaCf90yKShDtdm1eV6FH89FgVfSF7gKPIkmJQKCcU58KR/jxz0msco8LqZLeQrQ==
+ldn-inbox-server@^1.3.2:
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/ldn-inbox-server/-/ldn-inbox-server-1.3.2.tgz#3a37fe6338d195af348c7942a1080b5da9aafbaf"
+  integrity sha512-QE9TYL1Xd8YzjQFZOd4gArLzUuvTrCLniN+5s73+vYxoV7CKzCIf++d/eJ/biswJGpD5W/kPdXK/7lGSbCotWQ==
   dependencies:
     commander "^12.0.0"
     dotenv "^16.4.5"
     exponential-backoff "^3.1.1"
     jsonschema "^1.4.1"
     md5 "^2.3.0"
-    mellon-server "^1.0.4"
+    mellon-server "^1.0.8"
     node-fetch "1.7.3"
     piscina "^4.4.0"
     proper-lockfile "^4.1.2"
+    upath "^2.0.1"
     uuid "^9.0.1"
 
 log4js@^6.9.1:
@@ -147,10 +148,10 @@ md5@^2.3.0:
     crypt "0.0.2"
     is-buffer "~1.1.6"
 
-mellon-server@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/mellon-server/-/mellon-server-1.0.4.tgz#c87aca4a77037db70d727743c92da34bd1134e15"
-  integrity sha512-dl6PRfQhLl3O25KgSbIXrFufUZvbj2gtwycHv2IQt9P+udYUs65sc1rvGSUUXHMxNAixJHsQNNvYxHSf1DBCfQ==
+mellon-server@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/mellon-server/-/mellon-server-1.0.8.tgz#218f293a84c6b745f1cb59c634e4d7e08692331e"
+  integrity sha512-JooHrNe+1I9o1Mim//Ul0RZMXWc98/1oMv9BIYyEM24DwNXDCX3sfR/EwthNv/qMQ/+lu9RO+UuUzhiiWMck4Q==
   dependencies:
     commander "^12.0.0"
     http "^0.0.1-security"
@@ -245,6 +246,11 @@ universalify@^0.1.0:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/universalify/-/universalify-0.1.2.tgz#b646f69be3942dabcecc9d6639c80dc105efaa66"
   integrity sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg==
+
+upath@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/upath/-/upath-2.0.1.tgz#50c73dea68d6f6b990f51d279ce6081665d61a8b"
+  integrity sha512-1uEe95xksV1O0CYKXo8vQvN1JEbtJp7lb7C5U9HMsIp6IVwntkH/oNUzyVNQSd4S1sYk2FpSSW44FqMc8qee5w==
 
 uuid@^9.0.1:
   version "9.0.1"

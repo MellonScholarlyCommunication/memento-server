@@ -65,7 +65,7 @@ program
         box = OUTBOX_PATH;
         options['notification_handler'] =
            options['notification_handler'] ?? 
-            path.resolve(__dirname,'..','node_modules','ldn-inbox-server','lib','sendNotificationHandler.js');
+            path.resolve(__dirname,'..','node_modules','ldn-inbox-server','handler','send_notification_handler.js');
         break;
     }
     if (options['loop']) {
