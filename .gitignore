@@ -3,3 +3,4 @@ inbox
 outbox
 error
 .env
+ecosystem.config.js

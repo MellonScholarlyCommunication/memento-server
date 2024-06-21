@@ -1,0 +1,16 @@
+module.exports = {
+  apps : [
+   {
+    name   : "memento-server",
+    script : "./bin/memento-server.js start-server"
+   } ,
+   {
+    name   : "memento-inbox",
+    script : "LOG4JS=info ./bin/memento-server.js handler --loop 20 @inbox"
+   } ,
+   {
+    name   : "memento-outbox",
+    script : "LOG4JS=info ./bin/memento-server.js handler --loop 20 @outbox"
+   } 
+ ]
+}
