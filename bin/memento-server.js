@@ -65,18 +65,10 @@ program
         box = OUTBOX_PATH;
         options['notification_handler'] =
            options['notification_handler'] ?? 
-            path.resolve(__dirname,'..','node_modules','ldn-inbox-server','handler','send_notification_handler.js');
+            path.resolve(__dirname,'..','node_modules','ldn-inbox-server','handler','notification_handler','send_notification.js');
         break;
     }
-    if (options['loop']) {
-      while(1) {
-        await handle_inbox(box,options); 
-        await new Promise(resolve => setTimeout(resolve, options['loop']*1000));
-      }
-    }
-    else {
-      await handle_inbox(box,options);
-    }
+    await handle_inbox(box,options);
   });
 
 program
