@@ -6,6 +6,8 @@ const { inbox_server, handle_inbox , defaultSendNotificationHandler } = require(
 const { handle_map } = require('../lib/map_handler');
 const { handle_memento } = require('../lib/memento_handler');
 const { removeStore, initStore , listMementos , getMemento , getMementoMetadata , listRepository } = require('../lib/memento');
+const { waybackPOST , waybackGET } = require('../lib/wayback');
+require('dotenv').config();
 
 const HOST = process.env.MEMENTO_HOST ?? 'localhost';
 const PORT = process.env.MEMENTO_PORT ?? 8000;
@@ -18,7 +20,6 @@ const JSON_SCHEMA_PATH = process.env.MEMENTO_JSON_SCHEMA ?? './config/offer_sche
 
 program
   .name('memento-server')
-  .version('1.0.0')
   .description('An experimental Memento (RFC 7089) server');
 
 program
@@ -110,6 +111,30 @@ program
       const content = await getMemento(url,datetime);
       console.log(content);
     }
+  });
+
+program 
+  .command('wayback-post')
+  .argument('<url>','URL')
+  .action( async(url) => {
+      if (! (process.env.S3_ACCESS_KEY && process.env.S3_SECRET_KEY)) {
+          console.error('Need S3_ACCESS_KEY and S3_SECRET_KEY');
+          console.error('See also: https://docs.google.com/document/d/1Nsv52MvSjbLb2PCpHlat0gkzw0EvtSgpKHu4mk0MnrA/edit');
+          process.exit(1);
+      }
+      console.log(await waybackPOST(url));
+  });
+
+program
+  .command('wayback-get')
+  .argument('<id>','Job_id')
+  .action( async(id) => {
+      if (! (process.env.S3_ACCESS_KEY && process.env.S3_SECRET_KEY)) {
+          console.error('Need S3_ACCESS_KEY and S3_SECRET_KEY');
+          console.error('See also: https://docs.google.com/document/d/1Nsv52MvSjbLb2PCpHlat0gkzw0EvtSgpKHu4mk0MnrA/edit');
+          process.exit(1);
+      }
+      console.log(await waybackGET(id));
   });
 
 program.parse();
