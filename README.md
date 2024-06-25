@@ -109,6 +109,11 @@ Monitor all services
 pm2 monit
 ```
 
+## Wayback support
+
+See https://docs.google.com/document/d/1Nsv52MvSjbLb2PCpHlat0gkzw0EvtSgpKHu4mk0MnrA/edit
+Need S3 API keys requestable at https://archive.org/account/s3.php
+
 ## See also
 
 - https://github.com/MellonScholarlyCommunication/ldn-inbox-server
